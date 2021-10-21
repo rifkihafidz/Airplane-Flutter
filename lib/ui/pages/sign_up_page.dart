@@ -1,12 +1,21 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
 
+import 'package:airplane/cubit/auth_cubit.dart';
 import 'package:airplane/ui/widgets/custom_button.dart';
 import 'package:airplane/ui/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/theme.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+  SignUpPage({Key? key}) : super(key: key);
+
+  // Form controller untuk menampung nilai yang ada pada text field.
+  final TextEditingController nameController = TextEditingController(text: '');
+  final TextEditingController emailController = TextEditingController(text: '');
+  final TextEditingController passwordController =
+      TextEditingController(text: '');
+  final TextEditingController hobbyController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +32,17 @@ class SignUpPage extends StatelessWidget {
     Widget inputSection() {
       Widget fullNameInput() {
         return CustomTextFormField(
-            title: 'Full Name', hintText: 'Your full name');
+          title: 'Full Name',
+          hintText: 'Your full name',
+          controller: nameController,
+        );
       }
 
       Widget emailInput() {
         return CustomTextFormField(
           title: 'Email Address',
           hintText: 'Your email address',
+          controller: emailController,
         );
       }
 
@@ -37,6 +50,7 @@ class SignUpPage extends StatelessWidget {
         return CustomTextFormField(
           title: 'Password',
           hintText: 'Your password',
+          controller: passwordController,
           obscureText: true,
         );
       }
@@ -45,14 +59,43 @@ class SignUpPage extends StatelessWidget {
         return CustomTextFormField(
           title: 'Hobby',
           hintText: 'Your hobby',
+          controller: hobbyController,
         );
       }
 
       Widget submitButton() {
-        return CustomButton(
-          title: 'Get Started',
-          onPressed: () {
-            Navigator.pushNamed(context, '/bonus');
+        return BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // Kondisi auth state
+            if (state is AuthSuccess) {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/bonus', (route) => false);
+            } else if (state is AuthFailed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: kRedColor,
+                  content: Text(state.error),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return CustomButton(
+              title: 'Get Started',
+              onPressed: () {
+                context.read<AuthCubit>().signUp(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      name: nameController.text,
+                      hobby: hobbyController.text,
+                    );
+              },
+            );
           },
         );
       }

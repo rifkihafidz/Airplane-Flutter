@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:airplane/cubit/auth_cubit.dart';
 import 'package:airplane/cubit/page_cubit.dart';
 import 'package:airplane/ui/pages/bonus_page.dart';
 import 'package:airplane/ui/pages/get_started_page.dart';
@@ -23,8 +24,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // Memanggil provider cubit yang ingin di gunakan.
         BlocProvider(
           create: (context) => PageCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AuthCubit(),
         )
       ],
       child: MaterialApp(
