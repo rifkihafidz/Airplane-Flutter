@@ -8,7 +8,7 @@ class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Transaction Page'),
+      child: Text('Wallet Page'),
     );
   }
 }
