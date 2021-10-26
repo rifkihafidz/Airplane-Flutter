@@ -31,7 +31,7 @@ class UserService {
         balance: snapshot['balance'],
       );
     } catch (e) {
-      throw (e);
+      throw e;
     }
   }
 }

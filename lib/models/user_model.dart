@@ -10,6 +10,7 @@ class UserModel extends Equatable {
   final String hobby;
   final int balance;
 
+  // Constructor
   UserModel({
     required this.id,
     required this.email,
