@@ -73,7 +73,7 @@ class BonusPage extends StatelessWidget {
                       )
                     ],
                   ),
-                  SizedBox(height: 41),
+                  SizedBox(height: 20),
                   Text(
                     'Balance',
                     style: whiteTextStyle.copyWith(fontWeight: light),

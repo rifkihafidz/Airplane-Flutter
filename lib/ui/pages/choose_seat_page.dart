@@ -367,15 +367,13 @@ class ChooseSeatPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 5),
-                      Expanded(
-                        child: Text(
-                          state.join(', '),
-                          style: blackTextStyle.copyWith(
-                            fontWeight: medium,
-                            fontSize: 16,
-                          ),
+                      Text(
+                        state.join(', '),
+                        style: blackTextStyle.copyWith(
+                          fontWeight: medium,
+                          fontSize: 16,
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
